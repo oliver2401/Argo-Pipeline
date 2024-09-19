@@ -1,0 +1,39 @@
+#apiVersion: argoproj.io/v1alpha1
+#kind: ApplicationSet
+#metadata:
+#  name: cicd-{{ .Values.environment }}
+#  namespace: argocd
+#spec: 
+#  generators:
+#  - git:
+#      repoURL: TBD
+#      revision: main
+#      files:
+#        - path: "apps/*/{{ .Values.environment }}/values.yaml"
+#  syncPolicy:
+#    preserveResourcesOnDeletion: true
+#  template:
+#    metadata:
+#      name: '{{ "{{path[1]}}" }}'
+#    spec:
+#      project: cicd-{{ .Values.environment }}
+#      source:
+#        repoURL: TBD
+#        targetRevision: main
+#        path: '{{ "{{path}}" }}'
+#        helm:
+#          valueFiles:
+#          - ../values.default.yaml
+#          - values.yaml
+#          parameters:
+#          - name: "environment"
+#            value: {{ .Values.environment }}
+#      destination:
+#        name: "in-cluster"
+#        namespace: "cicd-{{ .Values.environment }}"
+#      syncPolicy:
+#        syncOptions:
+#            - CreateNamespace=true
+#        automated:
+#          prune: true
+#          selfHeal: true            

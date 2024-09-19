@@ -1,0 +1,6 @@
+apiVersion: v2
+appVersion: v1
+name: mediamtx-app
+description: MediaMTX app
+type: application
+version: v1

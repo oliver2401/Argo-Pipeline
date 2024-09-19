@@ -1,0 +1,39 @@
+#apiVersion: argoproj.io/v1alpha1
+#kind: ApplicationSet
+#metadata:
+#  name: "mediamtx-{{ .Values.environment }}"
+#  namespace: argocd
+#spec: 
+#  generators:
+#  - git:
+#      repoURL: TBD
+#      revision: master
+#      files:
+#        - path: "apps/*/{{ .Values.environment }}/values.yaml"
+#  syncPolicy:
+#    preserveResourcesOnDeletion: true
+#  template:
+#    metadata:
+#      name: '{{ "{{path[1]}}" }}'
+#    spec:
+#      project: "mediamtx-{{ .Values.environment }}"
+#      source:
+#        repoURL: TBD
+#        targetRevision: master
+#        path: '{{ "{{path}}" }}'
+#        helm:
+#          valueFiles:
+#          - ../values.default.yaml
+#          - values.yaml
+#          parameters:
+#          - name: "environment"
+#            value: {{ .Values.environment }}
+#      destination:
+#        name: "in-cluster"
+#        namespace: "mediamtx-{{ .Values.environment }}"
+#      syncPolicy:
+#        syncOptions:
+#            - CreateNamespace=true
+#        automated:
+#          prune: true
+#          selfHeal: true

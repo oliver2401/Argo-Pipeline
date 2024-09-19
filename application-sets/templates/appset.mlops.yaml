@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: "mlops-{{ .Values.environment }}"
+  namespace: argocd
+spec: 
+  generators:
+  - git:
+      repoURL: https://github.com/oliver2401/mlops.git
+      revision: main #develop
+      files:
+        - path: "apps/*/{{ .Values.environment }}/values.yaml"
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  template:
+    metadata:
+      name: '{{ "{{path[1]}}" }}'
+    spec:
+      project: "mlops-{{ .Values.environment }}"
+      source:
+        repoURL: https://github.com/oliver2401/mlops.git
+        targetRevision: main #develop
+        path: '{{ "{{path}}" }}'
+        helm:
+          valueFiles:
+          - ../values.default.yaml
+          - values.yaml
+          parameters:
+          - name: "environment"
+            value: {{ .Values.environment }}
+          - name: "dags.gitSync.repo"
+            value: {{ .Values.mlops.airflow.dags.gitSync.repo }}
+          - name: "dags.gitSync.branch"
+            value: {{ .Values.mlops.airflow.dags.gitSync.branch }}
+      destination:
+        name: "in-cluster"
+        namespace: "mlops-{{ .Values.environment }}"
+      syncPolicy:
+        syncOptions:
+            - CreateNamespace=true
+        automated:
+          prune: true
+          # selfHeal: true

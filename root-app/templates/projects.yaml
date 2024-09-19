@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-projects
+  namespace: argocd
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: argocd
+  source:
+    path: projects
+    repoURL: "{{ .Values.appSetSource }}"
+    targetRevision: HEAD       
+    helm:
+      parameters:
+        - name: "environment"
+          value: {{ .Values.environment }}
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      

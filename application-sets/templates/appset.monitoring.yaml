@@ -1,0 +1,36 @@
+#apiVersion: argoproj.io/v1alpha1
+#kind: ApplicationSet
+#metadata:
+#  name: monitoring-{{ .Values.environment }}
+#  namespace: argocd
+#spec: 
+#  generators:
+#  - git:
+#      repoURL: TBD-grafana.repo
+#      revision: main
+#      files:
+#        - path: "apps/*/{{ .Values.environment }}/values.yaml"
+#  syncPolicy:
+#    preserveResourcesOnDeletion: true
+#  template:
+#    metadata:
+#      name: '{{ "{{path[1]}}" }}'
+#    spec:
+#      project: monitoring-{{ .Values.environment }}
+#      source:
+#        repoURL: TBD-grafana.repo
+#        targetRevision: main
+#        path: '{{ "{{path}}" }}'
+#        helm:
+#          valueFiles:
+#          - ../values.default.yaml
+#          - values.yaml
+#      destination:
+#        name: "in-cluster"
+#        namespace: "monitoring-{{ .Values.environment }}"
+#      syncPolicy:
+#        syncOptions:
+#            - CreateNamespace=true
+#        automated:
+#          prune: true
+#          selfHeal: true            

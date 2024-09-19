@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:  
+  name: monitoring-{{ .Values.environment }}
+  namespace: argocd 
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  destinations:
+  - namespace: "monitoring-{{ .Values.environment }}"
+    server: '*'
+  sourceRepos:
+  - '*' 

@@ -1,0 +1,6 @@
+apiVersion: v2
+appVersion: v1
+name: TBD #mediamtx-argo-projects
+description: ArgoCD Projects
+type: application
+version: v1

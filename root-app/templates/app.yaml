@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: argocd
+  source:
+    path: application-sets
+    repoURL: "{{ .Values.appSetSource }}"
+    targetRevision: HEAD
+    helm:
+      parameters:
+        - name: "environment"
+          value: {{ .Values.environment }}
+        - name: "appSetSource"
+          value: {{ .Values.appSetSource }}     
+        - name: "mlops.airflow.dags.gitSync.repo"
+          value: {{ .Values.mlops.airflow.dags.gitSync.repo }}
+        - name: "mlops.airflow.dags.gitSync.branch"
+          value: {{ .Values.mlops.airflow.dags.gitSync.branch }}    
+  project: default
+  syncPolicy:
+    syncOptions:
+        - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

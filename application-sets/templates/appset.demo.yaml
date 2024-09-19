@@ -1,0 +1,36 @@
+#apiVersion: argoproj.io/v1alpha1
+#kind: ApplicationSet
+#metadata:
+#  name: "demo-{{ .Values.environment }}"
+#  namespace: argocd
+#spec: 
+#  generators:
+#  - git:
+#      repoURL: TBD
+#      revision: master
+#      files:
+#        - path: "apps/*/{{ .Values.environment }}/values.yaml"
+#  syncPolicy:
+#    preserveResourcesOnDeletion: true
+#  template:
+#    metadata:
+#      name: '{{ "{{path[1]}}" }}'
+#    spec:
+#      project: "demo-{{ .Values.environment }}"
+#      source:
+#        repoURL: TBD
+#        targetRevision: master
+#        path: '{{ "{{path}}" }}'
+#        helm:
+#          valueFiles:
+#          - ../values.default.yaml
+#          - values.yaml
+#      destination:
+#        name: "in-cluster"
+#        namespace: "demo-{{ .Values.environment }}"
+#      syncPolicy:
+#        syncOptions:
+#            - CreateNamespace=true
+#        automated:
+#          prune: true
+#          selfHeal: true

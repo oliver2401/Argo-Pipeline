@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:  
+  name: mlops-{{ .Values.environment }}
+  namespace: argocd 
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  destinations:
+  - namespace: "mlops-{{ .Values.environment }}"
+    server: '*'
+  sourceRepos:
+  - '*' 
