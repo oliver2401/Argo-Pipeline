@@ -1,4 +1,4 @@
-appSetSource: TBD -airflow-repo #"https://gitlab.telconet.ec/AI/safecity/safecity-2.0/ops-dev-app-deploy-pipeline"
+appSetSource: TBD -airflow-repo
 
 mlops:
   airflow:
