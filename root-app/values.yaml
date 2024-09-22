@@ -1,4 +1,4 @@
-appSetSource: TBD -airflow-repo
+appSetSource: "https://github.com/oliver2401/Argo-Pipeline"
 
 mlops:
   airflow:

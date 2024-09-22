@@ -39,7 +39,7 @@ Find reference in that repo on how-to install.
 
 ### Installing App of AppSets
 ```
-git clone <repo_TBD>
+git clone https://github.com/oliver2401/Argo-Pipeline.git
 
 # Execute without --dry-run to actually install, otherwise test
 helm upgrade --install root-app root-app -n argocd --set env="dev" --create-namespace \
