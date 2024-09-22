@@ -1,5 +1,7 @@
 appSetSource: "https://github.com/oliver2401/Argo-Pipeline"
 
+environment: "dev"
+
 mlops:
   airflow:
     dags:
